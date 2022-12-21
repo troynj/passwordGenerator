@@ -1,21 +1,21 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
+var pwObject = {
+    length: getPwLength(),
+    lowercase: getCharTypes("lowercase"),
+    uppercase: getCharTypes("uppercase"),
+    numeric: getCharTypes("numeric"),
+    special: getCharTypes("special"),
+}
 
 // Write password to the #password input
 function writePassword() {
-    getPwParams();
-  //var password = generatePassword();
+
+  var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
 }
 
-function getPwParams () {
-    getPwLength();
-    getCharTypes("lowercase")
-    getCharTypes("uppercase")
-    getCharTypes("numeric")
-    getCharTypes("special")
-}
 function getPwLength () {
     var pwLengthCheck = false;
     var pwLength;
@@ -36,9 +36,12 @@ function getPwLength () {
 }
 
 function getCharTypes (type) {
-   return confirm("Would you like your password to inclue " + type + "characters?")
+   return confirm("Would you like your password to inclue " + type + " characters?")
 }
 
+function generatePassword () {
+
+}
 
 
 //passwordText.value = password;
