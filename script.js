@@ -41,7 +41,11 @@ function setCharTypes(type) {
 }
 
 function generatePassword() {
-  pwPopulator = {
+    defineCriteria()
+}
+
+function defineCriteria () {
+  var availableCriteria = {
     aplha: [
       "A",
       "B",
@@ -101,40 +105,41 @@ function generatePassword() {
       "/": true,
     },
   };
-  //var excludeArr = [];
 
+  //ask user params for pw
   pwObj.length = setPwLength();
   pwObj.lowercase = setCharTypes("lowercase");
   pwObj.uppercase = setCharTypes("uppercase");
   pwObj.numeric = setCharTypes("numeric");
   pwObj.special = setCharTypes("special");
 
-  for (var i = 0; i < pwObj.length; i++) {
-    var charType = Math.floor(Math.random() * 4);
-    pwPopulator;
-  }
+//   for (var i = 0; i < pwObj.length; i++) {
+//     var charType = Math.floor(Math.random() * 4);
+//     pwPopulator;
+//   }
 
-  console.log("pwPopulator.symbol");
-    console.log(pwPopulator.symbol["!"]);
-    console.log(pwPopulator.symbol[3]);
-    console.log(pwPopulator.symbol[4]);
-
+  //if they want symbols, which ones should be excluded
   if (pwObj.special) {
     pwObj.exclude = prompt(
-      "Which characters should not be included in your password: " + pwPopulator.symbol
+      "Which characters should not be included in your password: " + availableCriteria.symbol
     );
-var tempArr = Object.values(pwObj.exclude)
-var tempArr2 = Object.keys(pwPopulator.symbol)
 
+    //convert to array
+var tempArr = Object.values(pwObj.exclude)
+var tempArr2 = Object.keys(availableCriteria.symbol)
+
+//loop through excluded symbols obj
     tempArr.forEach((e, i) => {
+        //if symbol obj includes excluded symbols array 
         if (tempArr2.includes(e)) {
-            pwPopulator.symbol[e]=false;
+            //change key:value pair from true to false
+            availableCriteria.symbol[e]=false;
         }
         
     })
 
-    console.log("pwPopulator.symbol");
-    console.log(pwPopulator.symbol);
+    console.log("availableCriteria.symbol");
+    console.log(availableCriteria.symbol);
   }
 }
 
