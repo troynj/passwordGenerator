@@ -103,9 +103,17 @@ function setCharTypes(type) {
 }
 
 function generatePassword() {
-  var generatedPassword;
+  var generatedPassword = "";
   defineCriteria();
-  getRndmValue();
+
+  for (var i = 0; i < pwOptions.length; i++) {
+    
+  //generatedPassword.concat(generateCharacter());
+  //generatedPassword.push(generateCharacter());
+  generatedPassword += generateCharacter();
+  }
+
+//   console.log("generatedPassword: " + generatedPassword)
 }
 
 function defineCriteria() {
@@ -147,19 +155,18 @@ function defineCriteria() {
   }
 }
 
-function getRndmValue() {
-  var genChar = null;
+function generateCharacter() {
+  var genChar = "";
   var index = Math.floor(Math.random() * 3);
 
   switch (index) {
     case 0:
-      console.log("Entered Case 1");
       var char = Math.floor(Math.random() * 26);
       var letterCase = Math.floor(Math.random() * 2);
 
       if (letterCase) genChar = availableCriteria.aplha[char];
       else if (!letterCase)
-        genChar = availableCriteria.aplha[char].toUpperCase();
+        genChar = availableCriteria.aplha[char].toLowerCase();
       else {
         console.log("error in alpha assignment");
       }
@@ -172,9 +179,12 @@ function getRndmValue() {
     case 2:
       rndmIndex = Math.floor(Math.random() * updatedSymbolArr.length);
 
-      updatedSymbolArr[rndmIndex];
+      genChar = updatedSymbolArr[rndmIndex];
       break;
   }
+
+  console.log("genChar: " + genChar);
+  return genChar
 }
 
 //passwordText.value = password;
