@@ -1,7 +1,7 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 var pwObj = [
-  {//1
+  {//0
     type: "lowercase",
     desired: null,
     options: [
@@ -37,7 +37,7 @@ var pwObj = [
       return availableCriteria.aplha[char].toLowerCase();
     },
   },
-  {//2
+  {//1
     type: "uppercase",
     desired: null,
     options: [
@@ -69,7 +69,7 @@ var pwObj = [
       "Z",
     ],
   },
-  {//3
+  {//2
     type: "numeric",
     desired: null,
     options: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
@@ -77,7 +77,7 @@ var pwObj = [
       return Math.floor(Math.random() * 10);
     },
   },
-  {//4
+  {//3
     type: "special",
     desired: null,
     options: {
@@ -114,8 +114,8 @@ var pwObj = [
       return updatedSymbolArr[rndmIndex];
     },
   },
-  { length: null },//5
-  { exclude: null },//6
+  { length: null },//4
+  { exclude: [] },//5
 ];
 
 var pwRandomizerArr = [];
@@ -174,16 +174,19 @@ function defineCriteria() {
   pwObj.length = setPwLength();
 
   while (pwHasChar == false) {
-    pwObj.lowercase = setCharTypes("lowercase");
-    pwObj.uppercase = setCharTypes("uppercase");
-    pwObj.numeric = setCharTypes("numeric");
-    pwObj.special = setCharTypes("special");
+
+    for (var i = 0; i < 4; i++) {
+        console.log("pwObj[i].type")
+        console.log(pwObj[i].type)
+    pwObj[i].desired = setCharTypes(pwObj[i].type);
+ 
+    }
 
     if (
-      !pwObj.lowercase &&
-      !pwObj.uppercase &&
-      !pwObj.numeric &&
-      !pwObj.special
+      !pwObj[0].desired &&
+      !pwObj[1].desired &&
+      !pwObj[2].desired &&
+      !pwObj[3].desired
     ) {
       alert("The Password must have alpha, numeric, or special characters!");
     } else {
@@ -192,16 +195,16 @@ function defineCriteria() {
   }
 
   //if they want symbols, which ones should be excluded
-  if (pwObj.special) {
-    pwObj.exclude = prompt(
+  if (pwObj[3].desired) {
+    pwObj[5].exclude = prompt(
       "Which characters should not be included in your password: " +
       Object.keys(pwObj[3].options));
     
   };
 
-  console.log("Exclude: " + pwObj.exclude)
+  console.log("Exclude: " + pwObj[5].exclude)
     //convert to array
-    var tempArr = Object.values(pwObj.exclude);
+    var tempArr = Object.values(pwObj[5].exclude);
     var tempArr2 = Object.keys(pwObj[3].options);
     //loop through excluded symbols obj
     tempArr.forEach((e, i) => {
@@ -209,9 +212,9 @@ function defineCriteria() {
       if (tempArr2.includes(e)) {
         //change key:value pair from true to false
         //console.log("pwObj[3].options[e]");
-        //console.log(pwObj[3].options[e]);
+        console.log(pwObj[3].options[e]);
         pwObj[3].options[e] = false;
-        //console.log(pwObj[3].options[e]);
+        console.log(pwObj[3].options[e]);
       }
     });
 
@@ -223,59 +226,25 @@ function defineCriteria() {
         updatedSymbolArr.push(e);
       }
     });
+
+    console.log(pwObj[3])
+    console.log(pwObj[3].desired)
+
+    for ( var i = 0; i < 4; i++) {
+        console.log("wtf");
+        console.log(i)
+        console.log(pwObj[i].desired)
+        // console.log(!Object.values(pwObj[i].desired));
+        // console.log(!pwObj[i]["desired"]);
+        if (!pwObj[i].desired) {
+            // console.log("Entered if statement")
+            // console.log(!pwObj[i].desired)
+            pwObj.splice(i, 1);
+        }
+    }
+
   }
 
-
-// function setRandomizer() {
-//   if (pwOptions.lowercase) {
-//     var temp = function () {
-//       var char = Math.floor(Math.random() * 26);
-//       return availableCriteria.aplha[char];
-//     };
-//     pwRandomizerArr.push(temp);
-//   }
-//   if (pwOptions.uppercase) {
-//     var temp = function () {
-//       var char = Math.floor(Math.random() * 26);
-//       return availableCriteria.aplha[char].toLowerCase();
-//     };
-//     pwRandomizerArr.push(temp);
-//   }
-//   if (pwOptions.numeric) {
-//     var temp = function () {
-//       return Math.floor(Math.random() * 10);
-//     };
-//     pwRandomizerArr.push(temp);
-//   }
-//   if (pwOptions.special) {
-//     var temp = function () {
-//       rndmIndex = Math.floor(Math.random() * updatedSymbolArr.length);
-//       return updatedSymbolArr[rndmIndex];
-//     };
-//     pwRandomizerArr.push(temp);
-//   }
-
-//   console.log("pwRandomizerArr");
-//   console.log(pwRandomizerArr);
-// }
-
-pwRandomizer = {
-  generateUpper: function () {
-    var char = Math.floor(Math.random() * 26);
-    return availableCriteria.aplha[char];
-  },
-  generateLower: function () {
-    var char = Math.floor(Math.random() * 26);
-    return availableCriteria.aplha[char].toLowerCase();
-  },
-  generateNum: function () {
-    return Math.floor(Math.random() * 10);
-  },
-  generateSymbol: function () {
-    rndmIndex = Math.floor(Math.random() * updatedSymbolArr.length);
-    return updatedSymbolArr[rndmIndex];
-  },
-};
 //passwordText.value = password;
 
 // Add event listener to generate button
