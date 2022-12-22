@@ -69,6 +69,8 @@ var availableCriteria = {
   },
 };
 
+var updatedSymbolArr = [];
+
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
@@ -101,6 +103,7 @@ function setCharTypes(type) {
 }
 
 function generatePassword() {
+  var generatedPassword;
   defineCriteria();
   getRndmValue();
 }
@@ -132,52 +135,46 @@ function defineCriteria() {
         availableCriteria.symbol[e] = false;
       }
     });
-  }
-//     console.log("availableCriteria.symbol");
-//     console.log(availableCriteria.symbol);
-//   }
 
-//   //filter out false values
-//   var tempSymbolArr = Object.values(availableCriteria.symbol)
-//   //converts to array, returns true values
-//   var desiredSymbols = tempSymbolArr.filter( (symbol) => {
-//     return symbol.value == true;
-//   })
-//   console.log("Testing Desired Symbols");
-//   console.log(desiredSymbols);
+    //go through sumbol obj
+    tempArr2.forEach((e) => {
+      //if value of symbol obj's key is true,
+      if (availableCriteria.symbol[e]) {
+        //add symbol to new array
+        updatedSymbolArr.push(e);
+      }
+    });
+  }
 }
 
-function getRndmValue () {
-    var genChar = null;
-    var index = Math.floor(Math.random() * 3);
+function getRndmValue() {
+  var genChar = null;
+  var index = Math.floor(Math.random() * 3);
 
-    // switch (index) {
-    // case 0: 
-    // console.log("Entered Case 1")
-    // var char = Math.floor(Math.random() * 26);
-    // var letterCase = Math.floor(Math.random() * 2);
-    // // console.log("char")
-    // // console.log(char)
-    // // console.log(availableCriteria.aplha[char])
-    // // console.log(availableCriteria.aplha[char].toLowerCase())
+  switch (index) {
+    case 0:
+      console.log("Entered Case 1");
+      var char = Math.floor(Math.random() * 26);
+      var letterCase = Math.floor(Math.random() * 2);
 
-    // if (letterCase) genChar = availableCriteria.aplha[char]
-    // else if (letterCase) genChar = availableCriteria.aplha[char].toUpperCase()
-    // break;
-    // case 1:
-    //     genChar = Math.floor(Math.random() * 10);
-    // case 2:
-        rndmIndex = Math.floor(Math.random() * 26)
+      if (letterCase) genChar = availableCriteria.aplha[char];
+      else if (!letterCase)
+        genChar = availableCriteria.aplha[char].toUpperCase();
+      else {
+        console.log("error in alpha assignment");
+      }
+      break;
 
-        console.log("newCheck")
-        console.log(rndmIndex)
-        console.log(availableCriteria.symbol[rndmIndex])
+    case 1:
+      genChar = Math.floor(Math.random() * 10);
+      break;
 
-    //}
-    // console.log("____");
-    // console.log(index);
-    // console.log("availableCriteria[index]");
-    // console.log(availableCriteria[index]);
+    case 2:
+      rndmIndex = Math.floor(Math.random() * updatedSymbolArr.length);
+
+      updatedSymbolArr[rndmIndex];
+      break;
+  }
 }
 
 //passwordText.value = password;
