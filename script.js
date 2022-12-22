@@ -156,7 +156,7 @@ function setCharTypes(type) {
 function generatePassword() {
   var generatedPassword = "";
   defineCriteria();
-  setRandomizer();
+  //setRandomizer();
 
   for (var i = 0; i < pwObj.length; i++) {
     var rndmIndex = Math.floor(Math.random() * pwRandomizerArr.length);
@@ -199,6 +199,7 @@ function defineCriteria() {
     
   };
 
+  console.log("Exclude: " + pwObj.exclude)
     //convert to array
     var tempArr = Object.values(pwObj.exclude);
     var tempArr2 = Object.keys(pwObj[3].options);
@@ -207,14 +208,17 @@ function defineCriteria() {
       //if symbol obj includes excluded symbols array
       if (tempArr2.includes(e)) {
         //change key:value pair from true to false
-        availableCriteria.symbol[e] = false;
+        //console.log("pwObj[3].options[e]");
+        //console.log(pwObj[3].options[e]);
+        pwObj[3].options[e] = false;
+        //console.log(pwObj[3].options[e]);
       }
     });
 
     //go through sumbol obj
     tempArr2.forEach((e) => {
       //if value of symbol obj's key is true,
-      if (availableCriteria.symbol[e]) {
+      if (pwObj[3].options[e]) {
         //add symbol to new array
         updatedSymbolArr.push(e);
       }
