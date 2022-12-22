@@ -1,7 +1,7 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 var pwObj = [
-  {
+  {//1
     type: "lowercase",
     desired: null,
     options: [
@@ -37,7 +37,7 @@ var pwObj = [
       return availableCriteria.aplha[char].toLowerCase();
     },
   },
-  {
+  {//2
     type: "uppercase",
     desired: null,
     options: [
@@ -69,7 +69,7 @@ var pwObj = [
       "Z",
     ],
   },
-  {
+  {//3
     type: "numeric",
     desired: null,
     options: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
@@ -77,10 +77,10 @@ var pwObj = [
       return Math.floor(Math.random() * 10);
     },
   },
-  {
+  {//4
     type: "special",
     desired: null,
-    optioins: {
+    options: {
       "!": true,
       "@": true,
       "#": true,
@@ -114,8 +114,8 @@ var pwObj = [
       return updatedSymbolArr[rndmIndex];
     },
   },
-  { length: null },
-  { exclude: null },
+  { length: null },//5
+  { exclude: null },//6
 ];
 
 var pwRandomizerArr = [];
@@ -195,12 +195,13 @@ function defineCriteria() {
   if (pwObj.special) {
     pwObj.exclude = prompt(
       "Which characters should not be included in your password: " +
-        availableCriteria.symbol
-    );
+      Object.keys(pwObj[3].options));
+    
+  };
 
     //convert to array
     var tempArr = Object.values(pwObj.exclude);
-    var tempArr2 = Object.keys(availableCriteria.symbol);
+    var tempArr2 = Object.keys(pwObj[3].options);
     //loop through excluded symbols obj
     tempArr.forEach((e, i) => {
       //if symbol obj includes excluded symbols array
@@ -219,7 +220,7 @@ function defineCriteria() {
       }
     });
   }
-}
+
 
 // function setRandomizer() {
 //   if (pwOptions.lowercase) {
