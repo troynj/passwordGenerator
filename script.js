@@ -9,7 +9,35 @@ var pwOptions = {
   exclude: null,
 };
 var availableCriteria = {
-  aplha: [
+  lAplha: [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+  ],
+  uAplha: [
     "A",
     "B",
     "C",
@@ -42,7 +70,7 @@ var availableCriteria = {
     "!": true,
     "@": true,
     "#": true,
-    "$": true,
+    //$: true,
     "%": true,
     "^": true,
     "&": true,
@@ -51,7 +79,7 @@ var availableCriteria = {
     ")": true,
     "-": true,
     "=": true,
-    "_": true,
+    //_: true,
     "+": true,
     "[": true,
     "]": true,
@@ -102,14 +130,13 @@ function generatePassword() {
   var generatedPassword = "";
   defineCriteria();
   for (var i = 0; i < pwOptions.pwLength; i++) {
-    
-  //generatedPassword.concat(generateCharacter());
-  //generatedPassword.push(generateCharacter());
-  generatedPassword += generateCharacter();
+    //generatedPassword.concat(generateCharacter());
+    //generatedPassword.push(generateCharacter());
+    generatedPassword += generateCharacter();
   }
 
   return generatedPassword;
-//   console.log("generatedPassword: " + generatedPassword)
+  //   console.log("generatedPassword: " + generatedPassword)
 }
 
 function defineCriteria() {
@@ -126,8 +153,14 @@ function defineCriteria() {
         availableCriteria.symbol
     );
     //convert to array
-    var tempArr = Object.values(pwOptions.exclude);
+    var tempArr = [];
+    if (pwOptions.exclude) {
+        tempArr = Object.values(pwOptions.exclude);
+    }
     var tempArr2 = Object.keys(availableCriteria.symbol);
+
+    //if tempArr has length (has any values/ length != 0)
+    if (tempArr.length) {
     //loop through excluded symbols obj
     tempArr.forEach((e, i) => {
       //if symbol obj includes excluded symbols array
@@ -136,6 +169,7 @@ function defineCriteria() {
         availableCriteria.symbol[e] = false;
       }
     });
+}
     //go through sumbol obj
     tempArr2.forEach((e) => {
       //if value of symbol obj's key is true,
@@ -144,32 +178,51 @@ function defineCriteria() {
         updatedSymbolArr.push(e);
       }
     });
+
   }
 }
 function generateCharacter() {
   var genChar = "";
-  var index = Math.floor(Math.random() * 3);
+  var index = Math.floor(Math.random() * 4);
+  var tempValueArr = Object.values(pwOptions);
+  var desiredCharTypeCheck = false;
+
+  // console.log("============")
+  // console.log("==pwOptions")
+  // console.log(pwOptions)
+  // console.log("==tempValueArr")
+  // console.log(tempValueArr)
+  console.log("==index: " + index);
+  console.log("==tempValueArr[index]");
+  console.log(tempValueArr[index]);
+
+  while (!desiredCharTypeCheck) {
+    if (!tempValueArr[index]) {
+      index = Math.floor(Math.random() * 3);
+      console.log("new index = " + index);
+    } else {
+      desiredCharTypeCheck = true;
+    }
+  }
+
   switch (index) {
     case 0:
       var char = Math.floor(Math.random() * 26);
-      var letterCase = Math.floor(Math.random() * 2);
-      if (letterCase) genChar = availableCriteria.aplha[char];
-      else if (!letterCase)
-        genChar = availableCriteria.aplha[char].toLowerCase();
-      else {
-        console.log("error in alpha assignment");
-      }
+      genChar = availableCriteria.lAplha[char];
       break;
     case 1:
-      genChar = Math.floor(Math.random() * 10);
+      genChar = availableCriteria.uAplha[char];
       break;
     case 2:
+      genChar = Math.floor(Math.random() * 10);
+      break;
+    case 3:
       rndmIndex = Math.floor(Math.random() * updatedSymbolArr.length);
       genChar = updatedSymbolArr[rndmIndex];
       break;
   }
   console.log("genChar: " + genChar);
-  return genChar
+  return genChar;
 }
 //passwordText.value = password;
 // Add event listener to generate button
