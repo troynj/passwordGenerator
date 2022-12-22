@@ -75,6 +75,7 @@ var updatedSymbolArr = [];
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
+  passwordText.innerHTML = password;
 }
 
 function setPwLength() {
@@ -113,6 +114,7 @@ function generatePassword() {
   generatedPassword += generateCharacter();
   }
 
+  return generatedPassword;
 //   console.log("generatedPassword: " + generatedPassword)
 }
 
