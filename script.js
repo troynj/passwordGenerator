@@ -1,74 +1,124 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
-var pwOptions = {
-  lowercase: null,
-  uppercase: null,
-  numeric: null,
-  special: null,
-  length: null,
-  exclude: null,
-};
-var availableCriteria = {
-  aplha: [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-  ],
-  //num: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-  symbol: {
-    "!": true,
-    "@": true,
-    "#": true,
-    "$": true,
-    "%": true,
-    "^": true,
-    "&": true,
-    "*": true,
-    "(": true,
-    ")": true,
-    "-": true,
-    "=": true,
-    "_": true,
-    "+": true,
-    "[": true,
-    "]": true,
-    "{": true,
-    "}": true,
-    "|": true,
-    ":": true,
-    ";": true,
-    ",": true,
-    ".": true,
-    "<": true,
-    ">": true,
-    "?": true,
-    "/": true,
+var pwObj = [
+  {
+    type: "lowercase",
+    desired: null,
+    options: [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "n",
+      "o",
+      "p",
+      "q",
+      "r",
+      "s",
+      "t",
+      "u",
+      "v",
+      "w",
+      "x",
+      "y",
+      "z",
+    ],
+    generateChar: function () {
+      var char = Math.floor(Math.random() * 26);
+      return availableCriteria.aplha[char].toLowerCase();
+    },
   },
-};
+  {
+    type: "uppercase",
+    desired: null,
+    options: [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+    ],
+  },
+  {
+    type: "numeric",
+    desired: null,
+    options: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    generateChar: function () {
+      return Math.floor(Math.random() * 10);
+    },
+  },
+  {
+    type: "special",
+    desired: null,
+    optioins: {
+      "!": true,
+      "@": true,
+      "#": true,
+      //"$": true,
+      "%": true,
+      "^": true,
+      "&": true,
+      "*": true,
+      "(": true,
+      ")": true,
+      "-": true,
+      "=": true,
+      //"_": true,
+      "+": true,
+      "[": true,
+      "]": true,
+      "{": true,
+      "}": true,
+      "|": true,
+      ":": true,
+      ";": true,
+      ",": true,
+      ".": true,
+      "<": true,
+      ">": true,
+      "?": true,
+      "/": true,
+    },
+    generateChar: function () {
+      rndmIndex = Math.floor(Math.random() * updatedSymbolArr.length);
+      return updatedSymbolArr[rndmIndex];
+    },
+  },
+  { length: null },
+  { exclude: null },
+];
 
+var pwRandomizerArr = [];
 var updatedSymbolArr = [];
 
 // Write password to the #password input
@@ -106,37 +156,51 @@ function setCharTypes(type) {
 function generatePassword() {
   var generatedPassword = "";
   defineCriteria();
+  setRandomizer();
 
-  for (var i = 0; i < pwOptions.length; i++) {
-    
-  //generatedPassword.concat(generateCharacter());
-  //generatedPassword.push(generateCharacter());
-  generatedPassword += generateCharacter();
+  for (var i = 0; i < pwObj.length; i++) {
+    var rndmIndex = Math.floor(Math.random() * pwRandomizerArr.length);
+    generatedPassword += pwRandomizerArr[rndmIndex];
   }
 
   return generatedPassword;
-//   console.log("generatedPassword: " + generatedPassword)
+  //   console.log("generatedPassword: " + generatedPassword)
 }
 
 function defineCriteria() {
+  var pwHasChar = false;
+
   //ask user params for pw
-  pwOptions.length = setPwLength();
-  pwOptions.lowercase = setCharTypes("lowercase");
-  pwOptions.uppercase = setCharTypes("uppercase");
-  pwOptions.numeric = setCharTypes("numeric");
-  pwOptions.special = setCharTypes("special");
+  pwObj.length = setPwLength();
+
+  while (pwHasChar == false) {
+    pwObj.lowercase = setCharTypes("lowercase");
+    pwObj.uppercase = setCharTypes("uppercase");
+    pwObj.numeric = setCharTypes("numeric");
+    pwObj.special = setCharTypes("special");
+
+    if (
+      !pwObj.lowercase &&
+      !pwObj.uppercase &&
+      !pwObj.numeric &&
+      !pwObj.special
+    ) {
+      alert("The Password must have alpha, numeric, or special characters!");
+    } else {
+      pwHasChar = true;
+    }
+  }
 
   //if they want symbols, which ones should be excluded
-  if (pwOptions.special) {
-    pwOptions.exclude = prompt(
+  if (pwObj.special) {
+    pwObj.exclude = prompt(
       "Which characters should not be included in your password: " +
         availableCriteria.symbol
     );
 
     //convert to array
-    var tempArr = Object.values(pwOptions.exclude);
+    var tempArr = Object.values(pwObj.exclude);
     var tempArr2 = Object.keys(availableCriteria.symbol);
-
     //loop through excluded symbols obj
     tempArr.forEach((e, i) => {
       //if symbol obj includes excluded symbols array
@@ -157,38 +221,56 @@ function defineCriteria() {
   }
 }
 
-function generateCharacter() {
-  var genChar = "";
-  var index = Math.floor(Math.random() * 3);
+// function setRandomizer() {
+//   if (pwOptions.lowercase) {
+//     var temp = function () {
+//       var char = Math.floor(Math.random() * 26);
+//       return availableCriteria.aplha[char];
+//     };
+//     pwRandomizerArr.push(temp);
+//   }
+//   if (pwOptions.uppercase) {
+//     var temp = function () {
+//       var char = Math.floor(Math.random() * 26);
+//       return availableCriteria.aplha[char].toLowerCase();
+//     };
+//     pwRandomizerArr.push(temp);
+//   }
+//   if (pwOptions.numeric) {
+//     var temp = function () {
+//       return Math.floor(Math.random() * 10);
+//     };
+//     pwRandomizerArr.push(temp);
+//   }
+//   if (pwOptions.special) {
+//     var temp = function () {
+//       rndmIndex = Math.floor(Math.random() * updatedSymbolArr.length);
+//       return updatedSymbolArr[rndmIndex];
+//     };
+//     pwRandomizerArr.push(temp);
+//   }
 
-  switch (index) {
-    case 0:
-      var char = Math.floor(Math.random() * 26);
-      var letterCase = Math.floor(Math.random() * 2);
+//   console.log("pwRandomizerArr");
+//   console.log(pwRandomizerArr);
+// }
 
-      if (letterCase) genChar = availableCriteria.aplha[char];
-      else if (!letterCase)
-        genChar = availableCriteria.aplha[char].toLowerCase();
-      else {
-        console.log("error in alpha assignment");
-      }
-      break;
-
-    case 1:
-      genChar = Math.floor(Math.random() * 10);
-      break;
-
-    case 2:
-      rndmIndex = Math.floor(Math.random() * updatedSymbolArr.length);
-
-      genChar = updatedSymbolArr[rndmIndex];
-      break;
-  }
-
-  console.log("genChar: " + genChar);
-  return genChar
-}
-
+pwRandomizer = {
+  generateUpper: function () {
+    var char = Math.floor(Math.random() * 26);
+    return availableCriteria.aplha[char];
+  },
+  generateLower: function () {
+    var char = Math.floor(Math.random() * 26);
+    return availableCriteria.aplha[char].toLowerCase();
+  },
+  generateNum: function () {
+    return Math.floor(Math.random() * 10);
+  },
+  generateSymbol: function () {
+    rndmIndex = Math.floor(Math.random() * updatedSymbolArr.length);
+    return updatedSymbolArr[rndmIndex];
+  },
+};
 //passwordText.value = password;
 
 // Add event listener to generate button
