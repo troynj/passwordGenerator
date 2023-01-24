@@ -205,12 +205,14 @@ function generateCharacter() {
     }
   }
 
+  console.log(index)
   switch (index) {
     case 0:
       var char = Math.floor(Math.random() * 26);
       genChar = availableCriteria.lAplha[char];
       break;
-    case 1:
+      case 1:
+      var char = Math.floor(Math.random() * 26);
       genChar = availableCriteria.uAplha[char];
       break;
     case 2:
@@ -220,6 +222,7 @@ function generateCharacter() {
       rndmIndex = Math.floor(Math.random() * updatedSymbolArr.length);
       genChar = updatedSymbolArr[rndmIndex];
       break;
+      default: "";
   }
   console.log("genChar: " + genChar);
   return genChar;
